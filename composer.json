@@ -1,0 +1,34 @@
+{
+  "name": "getgrav/email-mailersend",
+  "type": "grav-plugin",
+  "description": "Mailersend integration for new Email plugin",
+  "keywords": ["plugin"],
+  "homepage": "https://github.com/getgrav/grav-plugin-email-mailersend",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Team Grav",
+      "email": "devs@getgrav.org",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.3.6",
+    "rhukster/mailersend-mailer": "^5.4"
+  },
+  "replace": {
+    "symfony/mailer": "*",
+    "psr/event-dispatcher": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Grav\\Plugin\\EmailMailersend\\": "classes/"
+    },
+    "classmap":  ["email-mailersend.php"]
+  },
+  "config": {
+    "platform": {
+      "php": "7.3.6"
+    }
+  }
+}

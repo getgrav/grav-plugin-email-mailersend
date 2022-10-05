@@ -1,0 +1,73 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d10c43a50de605fdaad0c049449528ed",
+    "packages": [
+        {
+            "name": "rhukster/mailersend-mailer",
+            "version": "5.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rhukster/mailersend-mailer.git",
+                "reference": "6b6323f92be28c70daeb722de8c369b22d180d52"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rhukster/mailersend-mailer/zipball/6b6323f92be28c70daeb722de8c369b22d180d52",
+                "reference": "6b6323f92be28c70daeb722de8c369b22d180d52",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "psr/event-dispatcher": "^1",
+                "symfony/mailer": "^4.4.21|^5.2.6|^6.0"
+            },
+            "require-dev": {
+                "symfony/http-client": "^4.4|^5.0|^6.0"
+            },
+            "type": "rhukster-mailer-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Mailer\\Bridge\\Mailersend\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andy Miller",
+                    "email": "rhuk@getgrav.org"
+                }
+            ],
+            "description": "Symfony MailerSend Mailer Bridge",
+            "homepage": "https://symfony.com",
+            "support": {
+                "issues": "https://github.com/rhukster/mailersend-mailer/issues",
+                "source": "https://github.com/rhukster/mailersend-mailer/tree/5.4.2"
+            },
+            "time": "2022-10-03T18:29:43+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.3.6"
+    },
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.3.6"
+    },
+    "plugin-api-version": "2.3.0"
+}
