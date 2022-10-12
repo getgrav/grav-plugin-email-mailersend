@@ -1,7 +1,7 @@
 name: Email Mailersend
 slug: email-mailersend
 type: plugin
-version: 1.0.0-rc.2
+version: 1.0.0-rc.3
 testing: true
 description: Mailersend integration for new Email plugin
 icon: envelope
