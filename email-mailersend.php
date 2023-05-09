@@ -53,9 +53,9 @@ class EmailMailersendPlugin extends Plugin
         if ($engine === 'mailersend') {
             $options = $this->config->get('plugins.email-mailersend');
             if ($options['transport'] === 'api') {
-                $dsn = new MailersendApiTransport($options['api_key']);
+                $dsn = new MailersendApiTransport($options['api_key'] ?? '');
             } else {
-                $dsn = new MailersendSmtpTransport($options['username'], $options['password']);
+                $dsn = new MailersendSmtpTransport($options['username'] ?? '', $options['password'] ?? '');
             }
             $e['dsn'] = $dsn;
             $e->stopPropagation();
