@@ -7,22 +7,22 @@ namespace Composer\Autoload;
 class ComposerStaticInitc3ac35ed4130c1ef33c08621f7ce98eb
 {
     public static $prefixLengthsPsr4 = array (
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Component\\Mailer\\Bridge\\Mailersend\\' => 43,
         ),
-        'G' => 
+        'G' =>
         array (
             'Grav\\Plugin\\EmailMailersend\\' => 28,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Component\\Mailer\\Bridge\\Mailersend\\' => 
+        'Symfony\\Component\\Mailer\\Bridge\\Mailersend\\' =>
         array (
             0 => __DIR__ . '/..' . '/rhukster/mailersend-mailer',
         ),
-        'Grav\\Plugin\\EmailMailersend\\' => 
+        'Grav\\Plugin\\EmailMailersend\\' =>
         array (
             0 => __DIR__ . '/../..' . '/classes',
         ),

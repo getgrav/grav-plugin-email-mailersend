@@ -31,14 +31,14 @@ enabled: true
 transport: api
 username:
 password:
-access_key:
+api_key:
 ```
 
 Note that if you use the Admin Plugin, a file with your configuration named email-mailersend.yaml will be saved in the `user/config/plugins/`-folder once the configuration is saved in the Admin.
 
 ## Usage
 
-The **transport** can either be `api` (recommended) or `smtp`.  `username` and `password` is used for the `SMTP` option, and `access_key` is used by `api`.
+The **transport** can either be `api` (recommended) or `smtp`.  `username` and `password` is used for the `SMTP` option, and `api_key` is used by `api`.
 
 Once the options are set, all other configuration regarding email should be done in the main `email` plugin.  You just need to set the engine in the `email.yaml` configuration:
 
