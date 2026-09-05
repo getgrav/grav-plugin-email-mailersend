@@ -4,8 +4,8 @@ namespace Grav\Plugin;
 use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 use RocketTheme\Toolbox\Event\Event;
-use Symfony\Component\Mailer\Bridge\Mailersend\Transport\MailersendApiTransport;
-use Symfony\Component\Mailer\Bridge\Mailersend\Transport\MailersendSmtpTransport;
+use Grav\Plugin\EmailMailersend\Transport\MailersendApiTransport;
+use Grav\Plugin\EmailMailersend\Transport\MailersendSmtpTransport;
 
 /**
  * Class EmailMailersendPlugin

@@ -5,8 +5,18 @@
     * Delivery reports: this plugin now tells the Email plugin how MailerSend's webhooks are verified and read, so an add-on that records bounces no longer carries a MailerSend parser of its own
     * A "Set up in MailerSend" button an add-on can offer, which creates the webhook from the API key already pasted in, ticks the six events, and saves the signing secret before MailerSend stops showing it
     * New settings: `signing_secret`, `sending domain` and a `domain_id` filled in for you
-    * The plugin now says plainly what each of its two transports does to custom headers, so a screen can warn that `List-Unsubscribe` is dropped by the API transport
+    * The plugin now says plainly what each of its two transports does to custom headers, so a screen can warn that `List-Unsubscribe` needs a Professional or Enterprise plan on the API transport and works on any plan over SMTP
     * A test suite under `tests/`, run with `composer install -d tests` and `tests/vendor/bin/phpunit`
+    * The plugin now carries its own MailerSend transports under `classes/Transport/`, written against MailerSend's current Email API, and no longer depends on the `rhukster/mailersend-mailer` package
+    * The API transport now sends `list_unsubscribe`, `in_reply_to`, `references` and `send_at`, and leaves each of them out when the message has nothing to put in it, so a site on a smaller MailerSend plan never sends a field its plan would refuse
+    * MailerSend's own message id is now recorded on the sent message, which is the id their delivery webhooks carry
+
+1. [](#bugfix)
+    * The API transport sent every header on the message — From, To, Subject, Date and the MIME headers included — as a map, where MailerSend's API wants a list of `{name, value}` objects holding only the headers a caller added by hand
+    * An answer from MailerSend with no `x-message-id` header on it no longer trips over an undefined index
+    * A refused send now names MailerSend's own message and the field it complained about, and says which plan a refused `headers` or `list_unsubscribe` needs
+    * A sixth tag on a message is now refused rather than sent for MailerSend to reject, and tags are truncated at MailerSend's 191 characters rather than 255
+    * An inline attachment now carries the content id the HTML body references, so `cid:` images resolve
 
 # v1.0.1
 ## 05/01/2026
