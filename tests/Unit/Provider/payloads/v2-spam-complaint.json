@@ -1,0 +1,15 @@
+{
+    "type": "activity.spam_complaint",
+    "created_at": "2025-08-06T09:02:00.000000Z",
+    "data": {
+        "id": "6892766a5b66e2daf3dc9159",
+        "domain_id": "yv69oxl5kl785kw2",
+        "message_id": "6892766ae78995a317577aa1",
+        "email_id": "6892766a8d52ba62543d5e71",
+        "type": "spam_complaint",
+        "subject": "Test email",
+        "email": "annoyed@example.com",
+        "tags": [],
+        "meta": null
+    }
+}

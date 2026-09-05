@@ -1,7 +1,7 @@
 name: Email Mailersend
 slug: email-mailersend
 type: plugin
-version: 1.0.1
+version: 1.1.0
 testing: false
 description: Mailersend integration for new Email plugin
 icon: envelope
@@ -55,3 +55,24 @@ form:
     password:
       type: text
       label: Password (for SMTP Only)
+
+    delivery_reports:
+      type: section
+      title: Delivery reports
+      underline: true
+
+    signing_secret:
+      type: text
+      label: Signing secret
+      help: MailerSend signs every delivery webhook with this, and an add-on that receives those webhooks uses it to check each one is really from MailerSend. MailerSend shows it once, when the webhook is created, and there is no way to see it again afterwards. If an add-on offers a "Set up in MailerSend" button, press that instead and this fills itself in.
+
+    domain:
+      type: text
+      label: Sending domain
+      help: The domain this site sends from, for example example.com. Only needed if your MailerSend account has more than one verified domain — with a single domain it is worked out for you.
+
+    domain_id:
+      type: text
+      label: Domain ID
+      readonly: true
+      help: MailerSend's own id for that domain. Filled in the first time a webhook is set up, and there is no reason to type one in by hand.

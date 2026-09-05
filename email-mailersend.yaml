@@ -3,3 +3,6 @@ transport: api
 username:
 password:
 api_key:
+signing_secret:
+domain:
+domain_id:
