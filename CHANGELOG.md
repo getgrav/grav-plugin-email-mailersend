@@ -6,6 +6,7 @@
     * A "Set up in MailerSend" button an add-on can offer, which creates the webhook from the API key already pasted in, ticks the six events, and saves the signing secret before MailerSend stops showing it
     * New settings: `signing_secret`, `sending domain` and a `domain_id` filled in for you
     * The plugin now says plainly what each of its two transports does to custom headers, so a screen can warn that `List-Unsubscribe` needs a Professional or Enterprise plan on the API transport and works on any plan over SMTP
+    * The header a send id travels in is now named by the Email plugin rather than by this one. It is `X-Grav-Send-Id`, or whatever `providers.send_header` in the Email plugin's configuration says; it used to be `X-KahunaCart-Send`, which was another product's name sitting in a Team Grav plugin. MailerSend echoes no headers in any webhook, so this is documentation rather than a correlation path, and the class note says so
     * A test suite under `tests/`, run with `composer install -d tests` and `tests/vendor/bin/phpunit`
     * The plugin now carries its own MailerSend transports under `classes/Transport/`, written against MailerSend's current Email API, and no longer depends on the `rhukster/mailersend-mailer` package
     * The API transport now sends `list_unsubscribe`, `in_reply_to`, `references` and `send_at`, and leaves each of them out when the message has nothing to put in it, so a site on a smaller MailerSend plan never sends a field its plan would refuse

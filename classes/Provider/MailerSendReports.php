@@ -7,6 +7,7 @@ namespace Grav\Plugin\EmailMailersend\Provider;
 use Grav\Plugin\Email\Providers\DeliveryReports;
 use Grav\Plugin\Email\Providers\Event;
 use Grav\Plugin\Email\Providers\Payload;
+use Grav\Plugin\Email\Providers\SendHeader;
 use Grav\Plugin\Email\Providers\Verdict;
 use Grav\Plugin\Email\Providers\WebhookRequest;
 
@@ -59,6 +60,17 @@ use Grav\Plugin\Email\Providers\WebhookRequest;
  * chart. That is said plainly on the provider's capabilities rather than left
  * for somebody to discover from an empty column.
  *
+ * ## Nothing here is ever `dropped`
+ *
+ * The contract's sixth word is for a message a provider refused to send at all,
+ * and MailerSend has no event for that. `activity.hard_bounced` is a receiving
+ * server refusing the address, which is a hard bounce and is reported as one.
+ * `recipient.on_hold_added` is the nearest thing and is not it either: their
+ * hold is three days with an `on_hold_until` on it, and turning a three-day
+ * hold into a permanent suppression would lose customers. A send to an address
+ * MailerSend has already suppressed is refused by the API call itself rather
+ * than reported afterwards, so there is nothing here to map.
+ *
  * ## The signature, and the endpoint check that is signed with a public secret
  *
  * `Signature: <hex>`, an HMAC-SHA256 over the raw request body keyed with the
@@ -95,16 +107,6 @@ final class MailerSendReports implements DeliveryReports
 
     /** The body type of that check. */
     public const TEST_TYPE = 'webhook.test';
-
-    /**
-     * The header a store stamps its send id into.
-     *
-     * Named here because the contract has the provider name it, so a store and
-     * a provider cannot disagree about the spelling. For MailerSend it is
-     * documentation and nothing else: the header goes out on the message and
-     * never comes back. See the class note.
-     */
-    public const SEND_HEADER = 'X-KahunaCart-Send';
 
     /**
      * Nothing before this is a real moment. 2000-01-01, which catches a
@@ -252,9 +254,16 @@ final class MailerSendReports implements DeliveryReports
         )]);
     }
 
+    /**
+     * The name the Email plugin answers, which is `X-Grav-Send-Id` unless the
+     * site says otherwise.
+     *
+     * For MailerSend it is documentation and nothing else: the header goes out
+     * on the message and never comes back. See the class note.
+     */
     public function sendHeader(): string
     {
-        return self::SEND_HEADER;
+        return SendHeader::name();
     }
 
     // ------------------------------------------------------------- internals

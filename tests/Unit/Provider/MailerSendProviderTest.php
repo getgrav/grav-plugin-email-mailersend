@@ -6,6 +6,7 @@ namespace Grav\Plugin\EmailMailersend\Tests\Unit\Provider;
 
 use Grav\Plugin\Email\Providers\Event;
 use Grav\Plugin\Email\Providers\Provider;
+use Grav\Plugin\Email\Providers\SendHeader;
 use Grav\Plugin\EmailMailersend\Provider\MailerSendProvider;
 use Grav\Plugin\EmailMailersend\Provider\MailerSendReports;
 use Grav\Plugin\EmailMailersend\Tests\Support\FakeHttp;
@@ -81,7 +82,13 @@ final class MailerSendProviderTest extends TestCase
             Event::OPENED,
             Event::CLICKED,
         ], $reports->events());
-        self::assertSame(MailerSendReports::SEND_HEADER, $reports->sendHeader());
+        self::assertSame(SendHeader::name(), $reports->sendHeader(), 'the Email plugin names it');
+        self::assertSame('X-Grav-Send-Id', $reports->sendHeader());
+        self::assertNotContains(
+            Event::DROPPED,
+            $reports->events(),
+            'MailerSend has no event for a message it refused to send'
+        );
     }
 
     public function testEveryEventItReportsIsOneOfTheContractsWords(): void
