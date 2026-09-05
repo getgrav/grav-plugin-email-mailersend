@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 /**
  * The plugin ships its own vendor directory, and that directory holds nothing
- * but Composer's autoloader and MailerSend's Symfony transport - Symfony Mailer
- * itself comes from Grav at runtime, which is why the plugin's composer.json
- * replaces it rather than requiring it.
+ * but Composer's autoloader - Symfony Mailer comes from Grav at runtime, which
+ * is why the plugin's composer.json replaces it rather than requiring it, and
+ * the two transports under classes/Transport are the plugin's own rather than a
+ * package.
  *
- * Installing PHPUnit into that same directory would put development packages
- * into the released plugin, so the suite keeps its own composer.json and its own
- * vendor directory here under tests/ instead. Run `composer install -d tests`
- * once, then `phpunit` from the repository root.
+ * Installing PHPUnit and a real Symfony Mailer into that same directory would
+ * put development packages into the released plugin, so the suite keeps its own
+ * composer.json and its own vendor directory here under tests/ instead. Run
+ * `composer install -d tests` once, then `phpunit` from the repository root.
  */
 $autoload = __DIR__ . '/vendor/autoload.php';
 

@@ -40,6 +40,7 @@ form:
       size: small
       label: Transport
       default: api
+      help: "API is faster and needs only the API key. SMTP is slower but carries the whole message, including custom headers and List-Unsubscribe — MailerSend's API only accepts those two on their Professional and Enterprise plans. Pick SMTP if this site sends bulk mail on a smaller plan."
       options:
         api: API (faster)
         smtp: SMTP
@@ -47,14 +48,17 @@ form:
     api_key:
       type: text
       label: API Key
+      help: "For the API transport, and for the delivery reports button below. In MailerSend, go to Integrations, then MailerSend API, then Manage. A token created without an expiry date expires in 24 hours."
 
     username:
       type: text
       label: Username (for SMTP Only)
+      help: "The SMTP username on the sending domain's page in MailerSend, not the API token."
 
     password:
       type: text
       label: Password (for SMTP Only)
+      help: "The SMTP password shown beside that username. MailerSend connects on smtp.mailersend.net port 587 and upgrades to TLS with STARTTLS."
 
     delivery_reports:
       type: section
