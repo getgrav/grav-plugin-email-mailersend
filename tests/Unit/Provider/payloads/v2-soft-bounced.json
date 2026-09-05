@@ -1,0 +1,17 @@
+{
+    "type": "activity.soft_bounced",
+    "created_at": "2025-08-05T21:25:02.000000Z",
+    "data": {
+        "id": "6892766a5b66e2daf3dc9158",
+        "domain_id": "yv69oxl5kl785kw2",
+        "message_id": "6892766ae78995a317577aa1",
+        "email_id": "6892766a8d52ba62543d5e71",
+        "type": "soft_bounced",
+        "subject": "Test email",
+        "recipient": "full@example.com",
+        "tags": [],
+        "meta": {
+            "reason": "452 4.2.2 The recipient's mailbox is full"
+        }
+    }
+}

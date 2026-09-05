@@ -1,0 +1,17 @@
+{
+    "type": "activity.clicked",
+    "created_at": "2025-08-05 22:31:09",
+    "data": {
+        "id": "6892766a5b66e2daf3dc915b",
+        "domain_id": "yv69oxl5kl785kw2",
+        "message_id": "6892766ae78995a317577aa1",
+        "email_id": "6892766a8d52ba62543d5e71",
+        "type": "clicked",
+        "subject": "Test email",
+        "email": "reader@example.com",
+        "tags": [],
+        "meta": {
+            "url": "https://example.com/offer"
+        }
+    }
+}

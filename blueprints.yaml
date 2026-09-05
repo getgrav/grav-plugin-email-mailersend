@@ -1,7 +1,7 @@
 name: Email Mailersend
 slug: email-mailersend
 type: plugin
-version: 1.0.1
+version: 1.1.0
 testing: false
 description: Mailersend integration for new Email plugin
 icon: envelope
@@ -40,6 +40,7 @@ form:
       size: small
       label: Transport
       default: api
+      help: "API is faster and needs only the API key. SMTP is slower but carries the whole message, including custom headers and List-Unsubscribe — MailerSend's API only accepts those two on their Professional and Enterprise plans. Pick SMTP if this site sends bulk mail on a smaller plan."
       options:
         api: API (faster)
         smtp: SMTP
@@ -47,11 +48,35 @@ form:
     api_key:
       type: text
       label: API Key
+      help: "For the API transport, and for the delivery reports button below. In MailerSend, go to Integrations, then MailerSend API, then Manage. A token created without an expiry date expires in 24 hours."
 
     username:
       type: text
       label: Username (for SMTP Only)
+      help: "The SMTP username on the sending domain's page in MailerSend, not the API token."
 
     password:
       type: text
       label: Password (for SMTP Only)
+      help: "The SMTP password shown beside that username. MailerSend connects on smtp.mailersend.net port 587 and upgrades to TLS with STARTTLS."
+
+    delivery_reports:
+      type: section
+      title: Delivery reports
+      underline: true
+
+    signing_secret:
+      type: text
+      label: Signing secret
+      help: MailerSend signs every delivery webhook with this, and an add-on that receives those webhooks uses it to check each one is really from MailerSend. MailerSend shows it once, when the webhook is created, and there is no way to see it again afterwards. If an add-on offers a "Set up in MailerSend" button, press that instead and this fills itself in.
+
+    domain:
+      type: text
+      label: Sending domain
+      help: The domain this site sends from, for example example.com. Only needed if your MailerSend account has more than one verified domain — with a single domain it is worked out for you.
+
+    domain_id:
+      type: text
+      label: Domain ID
+      readonly: true
+      help: MailerSend's own id for that domain. Filled in the first time a webhook is set up, and there is no reason to type one in by hand.

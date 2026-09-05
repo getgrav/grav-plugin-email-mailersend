@@ -6,6 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Symfony\\Component\\Mailer\\Bridge\\Mailersend\\' => array($vendorDir . '/rhukster/mailersend-mailer'),
     'Grav\\Plugin\\EmailMailersend\\' => array($baseDir . '/classes'),
 );

@@ -1,0 +1,35 @@
+{
+    "type": "activity.delivered",
+    "domain_id": "yv69oxl5kl785kw2",
+    "created_at": "2020-11-27T10:08:20.298647Z",
+    "webhook_id": "2351ndgwr4zqx8ko",
+    "url": "https://your-domain.com/webhook",
+    "data": {
+        "object": "activity",
+        "id": "5fc0d006b42c3e16e1774883",
+        "type": "delivered",
+        "created_at": "2020-11-27T10:08:18.258000Z",
+        "email": {
+            "object": "email",
+            "id": "5fc0d003e7a5e7035446aa32",
+            "created_at": "2020-11-27T10:08:03.923000Z",
+            "from": "test@mailersend.com",
+            "subject": "Test email",
+            "status": "delivered",
+            "tags": null,
+            "message": {
+                "object": "message",
+                "id": "5fc0d003f718c90162341852",
+                "created_at": "2020-11-27T10:08:03.017000Z"
+            },
+            "recipient": {
+                "object": "recipient",
+                "id": "5f6887d6fd913a6523283fd2",
+                "email": "test@mailersend.com",
+                "created_at": "2020-09-21T11:00:38.184000Z"
+            }
+        },
+        "template_id": "7nxe3yjmeq28vp0k",
+        "morph": null
+    }
+}

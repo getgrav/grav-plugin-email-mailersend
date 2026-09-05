@@ -1,8 +1,8 @@
 {
   "name": "getgrav/email-mailersend",
   "type": "grav-plugin",
-  "description": "Mailersend integration for new Email plugin",
-  "keywords": ["plugin"],
+  "description": "MailerSend integration for the Email plugin (API and SMTP)",
+  "keywords": ["plugin", "email", "mailersend"],
   "homepage": "https://github.com/getgrav/grav-plugin-email-mailersend",
   "license": "MIT",
   "authors": [
@@ -13,8 +13,7 @@
     }
   ],
   "require": {
-    "php": ">=7.3.6",
-    "rhukster/mailersend-mailer": "^5.4"
+    "php": ">=7.3.6"
   },
   "replace": {
     "symfony/mailer": "*",

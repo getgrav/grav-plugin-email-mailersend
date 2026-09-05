@@ -4,13 +4,9 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc3ac35ed4130c1ef33c08621f7ce98eb
+class ComposerStaticInita6da5918bc2adbf06e77e80d4ddb0a7d
 {
     public static $prefixLengthsPsr4 = array (
-        'S' =>
-        array (
-            'Symfony\\Component\\Mailer\\Bridge\\Mailersend\\' => 43,
-        ),
         'G' =>
         array (
             'Grav\\Plugin\\EmailMailersend\\' => 28,
@@ -18,10 +14,6 @@ class ComposerStaticInitc3ac35ed4130c1ef33c08621f7ce98eb
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Component\\Mailer\\Bridge\\Mailersend\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/rhukster/mailersend-mailer',
-        ),
         'Grav\\Plugin\\EmailMailersend\\' =>
         array (
             0 => __DIR__ . '/../..' . '/classes',
@@ -36,9 +28,9 @@ class ComposerStaticInitc3ac35ed4130c1ef33c08621f7ce98eb
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc3ac35ed4130c1ef33c08621f7ce98eb::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc3ac35ed4130c1ef33c08621f7ce98eb::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc3ac35ed4130c1ef33c08621f7ce98eb::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita6da5918bc2adbf06e77e80d4ddb0a7d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita6da5918bc2adbf06e77e80d4ddb0a7d::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita6da5918bc2adbf06e77e80d4ddb0a7d::$classMap;
 
         }, null, ClassLoader::class);
     }
