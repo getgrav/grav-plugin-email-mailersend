@@ -103,16 +103,22 @@ final class MailerSendProvider implements Provider
 
     public function capabilities(): Capabilities
     {
+        // Both transports carry a custom header and the List-Unsubscribe pair
+        // now that the plugin builds the API payload itself: headers go in
+        // MailerSend's documented list form and List-Unsubscribe fills their
+        // own field. On the API that is a Professional or Enterprise plan
+        // feature, and a store below that gets MailerSend's refusal, in its
+        // own words, the first time it sets one.
         $overSmtp = $this->transport() === self::TRANSPORT_SMTP;
 
         return new Capabilities(
-            customHeaders: $overSmtp,
-            unsubscribeHeaders: $overSmtp,
+            customHeaders: true,
+            unsubscribeHeaders: true,
             // Never, in either payload version and on either transport.
             echoesHeaders: false,
             echoNote: $overSmtp
                 ? 'MailerSend\'s webhooks carry no headers and no metadata, so a header you set on a message never comes back. Events are matched by the recipient\'s address and by MailerSend\'s own message id instead.'
-                : 'MailerSend\'s Email API only carries custom headers and List-Unsubscribe on their Professional and Enterprise plans, and this plugin does not set them. Switch this plugin\'s transport to SMTP if a header has to reach the wire. Either way MailerSend\'s webhooks never hand a header back.',
+                : 'Custom headers and List-Unsubscribe reach MailerSend\'s Email API on their Professional and Enterprise plans; on a lower plan MailerSend refuses the message and says so. Either way MailerSend\'s webhooks never hand a header back, so events are matched by the recipient\'s address and by MailerSend\'s own message id.',
         );
     }
 

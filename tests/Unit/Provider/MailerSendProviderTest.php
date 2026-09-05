@@ -52,13 +52,18 @@ final class MailerSendProviderTest extends TestCase
      * being filed as spam by Gmail a year later with nothing on any screen
      * saying why.
      */
-    public function testOverTheApiTheyDoNot(): void
+    /**
+     * Over the API they reach the wire too, now that the plugin builds the
+     * payload itself — on a Professional or Enterprise plan, which the note
+     * says, because a lower plan refuses the message.
+     */
+    public function testOverTheApiTheyReachTheWireOnTheRightPlan(): void
     {
         foreach ([['transport' => 'api'], [], ['transport' => 'SOMETHING ELSE']] as $config) {
             $capabilities = (new MailerSendProvider($config))->capabilities();
 
-            self::assertFalse($capabilities->customHeaders);
-            self::assertFalse($capabilities->unsubscribeHeaders);
+            self::assertTrue($capabilities->customHeaders);
+            self::assertTrue($capabilities->unsubscribeHeaders);
             self::assertFalse($capabilities->echoesHeaders);
             self::assertStringContainsString('Professional and Enterprise', $capabilities->echoNote);
         }
