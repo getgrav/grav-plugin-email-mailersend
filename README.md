@@ -95,7 +95,7 @@ The API key you already pasted in for sending is the one it uses. It needs two p
 
 If your MailerSend account has more than one verified sending domain, put the one this site sends from in the **Sending domain** field first. With a single domain it is worked out for you.
 
-Pressing the button twice is safe. It looks for a webhook already pointed at the same address and updates that one rather than making a second — two webhooks posting the same events would double every figure in your reports.
+Pressing the button twice is safe. It looks for a webhook already pointed at the same address and updates that one rather than making a second — two webhooks posting the same events would double every figure in your reports. If the address has changed since — a new secret, or a store that lost its settings — it points the webhook MailerSend already holds at the new one rather than leaving a dead webhook behind.
 
 ### Doing it by hand
 
