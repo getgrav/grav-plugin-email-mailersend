@@ -111,6 +111,63 @@ final class MailerSendSetupTest extends TestCase
         self::assertArrayNotHasKey('domain_id', $update['body']);
     }
 
+    /**
+     * A webhook registered against an older secret is pointed at the new
+     * address rather than left dead beside a new one.
+     */
+    public function testAWebhookOnAnOlderSecretIsPointedAtTheNewAddress(): void
+    {
+        $http = (new FakeHttp())
+            ->queue(200, ['data' => [['id' => 'dm1', 'name' => 'example.com']]])
+            ->queue(200, ['data' => [
+                ['id' => 'wh1', 'url' => 'https://elsewhere.example.com/hook'],
+                ['id' => 'wh7', 'url' => 'https://shop.example.com/_nl/webhook/mailersend/the-old-secret'],
+            ]])
+            ->queue(200, ['data' => ['id' => 'wh7', 'signing_secret' => 'ms_whsec_9911']]);
+
+        $saved = [];
+        $result = $this->button($http, $saved)->create(self::URL, [], self::CONFIG);
+
+        self::assertTrue($result->ok);
+        self::assertSame('wh7', $result->webhookId);
+        self::assertStringContainsString('older secret', $result->message);
+        self::assertCount(3, $http->calls, 'nothing should have been created');
+
+        $update = $http->call(2);
+        self::assertSame('PUT', $update['method'], 'nothing should have been created');
+        self::assertSame(MailerSendApi::BASE . '/webhooks/wh7', $update['url']);
+        self::assertSame(self::URL, $update['body']['url']);
+        self::assertTrue($update['body']['enabled']);
+        self::assertSame(2, $update['body']['version']);
+        self::assertSame([
+            'activity.delivered',
+            'activity.hard_bounced',
+            'activity.soft_bounced',
+            'activity.spam_complaint',
+            'activity.opened',
+            'activity.clicked',
+        ], $update['body']['events']);
+        self::assertArrayNotHasKey('domain_id', $update['body']);
+    }
+
+    /** A refused repointing comes back in MailerSend's own words. */
+    public function testARefusedRepointingIsAPlainSentence(): void
+    {
+        $http = (new FakeHttp())
+            ->queue(200, ['data' => [['id' => 'dm1', 'name' => 'example.com']]])
+            ->queue(200, ['data' => [
+                ['id' => 'wh7', 'url' => 'https://shop.example.com/_nl/webhook/mailersend/the-old-secret'],
+            ]])
+            ->queue(422, ['message' => 'The url must be a valid URL.']);
+
+        $saved = [];
+        $result = $this->button($http, $saved)->create(self::URL, [], self::CONFIG);
+
+        self::assertFalse($result->ok);
+        self::assertStringContainsString('must be a valid URL', $result->message);
+        self::assertSame([], $saved);
+    }
+
     public function testAnUpdateWithNoSecretBackSaysWhatToDoAboutIt(): void
     {
         $http = (new FakeHttp())

@@ -47,6 +47,16 @@ use Grav\Plugin\Email\Providers\WebhookSetup;
  * verification exactly as broken as it was. The message says so in plain words
  * and names the way out, which is to delete the webhook in MailerSend and press
  * the button again.
+ *
+ * ## Pressing it after the secret changed
+ *
+ * A new secret is a new address, so the webhook MailerSend holds is posting at
+ * one that answers 404 and the store looks as though nothing is registered. It
+ * is still recognisably this store's webhook: the URL sits under the same
+ * endpoint on the same domain and only the secret on the end is different. So
+ * it is updated to the new address rather than joined by a second one, and the
+ * message says so. The signing secret is as awkward here as on any other
+ * update, and the same sentence covers it.
  */
 final class MailerSendSetup implements WebhookSetup
 {
@@ -113,13 +123,28 @@ final class MailerSendSetup implements WebhookSetup
             return SetupResult::failed($existing['message']);
         }
 
+        // Read once and looked through twice: the address exactly, and then the
+        // endpoint it sits under, which is how this store's own webhook is
+        // recognised after the secret on the end of it has changed.
+        $endpoint = self::endpointOf($url);
         $webhookId = null;
+        $stale = null;
+
         foreach ($existing['webhooks'] as $id => $registered) {
-            if (strcasecmp(trim($registered), $url) === 0) {
-                $webhookId = $id;
+            $registered = trim($registered);
+
+            if (strcasecmp($registered, $url) === 0) {
+                $webhookId = (string)$id;
                 break;
             }
+
+            if ($stale === null && $endpoint !== '' && stripos($registered, $endpoint) === 0) {
+                $stale = (string)$id;
+            }
         }
+
+        $repointed = $webhookId === null && $stale !== null;
+        $webhookId ??= $stale;
 
         $answer = $this->api->saveWebhook($token, $domain['id'], $url, self::WEBHOOK_NAME, $names, $webhookId);
 
@@ -131,15 +156,20 @@ final class MailerSendSetup implements WebhookSetup
 
         if ($answer['secret'] !== null) {
             return SetupResult::ok(
-                $webhookId === null
-                    ? 'The webhook was created in MailerSend and its signing secret saved here, so delivery reports will be checked from now on.'
-                    : 'The webhook already pointed at this address was updated in MailerSend, and its signing secret saved here.',
+                match (true) {
+                    $webhookId === null => 'The webhook was created in MailerSend and its signing secret saved here, so delivery reports will be checked from now on.',
+                    $repointed => 'MailerSend had this store\'s webhook registered with an older secret. It now points at this address, and its signing secret has been saved here.',
+                    default => 'The webhook already pointed at this address was updated in MailerSend, and its signing secret saved here.',
+                },
                 $answer['id'] ?? $webhookId,
             );
         }
 
         return SetupResult::ok(
-            'The webhook was updated in MailerSend. It did not return a signing secret, which it only does when a webhook is first created — so if delivery reports are being refused, delete the webhook in MailerSend and press this again.',
+            ($repointed
+                ? 'MailerSend had this store\'s webhook registered with an older secret. It now points at this address.'
+                : 'The webhook was updated in MailerSend.')
+            . ' It did not return a signing secret, which it only does when a webhook is first created — so if delivery reports are being refused, delete the webhook in MailerSend and press this again.',
             $answer['id'] ?? $webhookId,
         );
     }
@@ -242,6 +272,17 @@ final class MailerSendSetup implements WebhookSetup
         }
 
         return $names;
+    }
+
+    /**
+     * The address without its secret: everything up to and including the last
+     * slash. Two addresses that share it belong to the same store.
+     */
+    private static function endpointOf(string $url): string
+    {
+        $cut = strrpos($url, '/');
+
+        return $cut === false || $cut < \strlen('https://x/') ? '' : substr($url, 0, $cut + 1);
     }
 
     /** @param array<string, mixed> $values */
