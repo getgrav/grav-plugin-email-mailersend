@@ -1,7 +1,7 @@
 name: Email Mailersend
 slug: email-mailersend
 type: plugin
-version: 1.1.1
+version: 1.1.2
 testing: false
 description: Mailersend integration for new Email plugin
 icon: envelope
@@ -46,7 +46,7 @@ form:
         smtp: SMTP
 
     api_key:
-      type: text
+      type: password
       label: API Key
       help: "For the API transport, and for the delivery reports button below. In MailerSend, go to Integrations, then MailerSend API, then Manage. A token created without an expiry date expires in 24 hours."
 
@@ -56,7 +56,7 @@ form:
       help: "The SMTP username on the sending domain's page in MailerSend, not the API token."
 
     password:
-      type: text
+      type: password
       label: Password (for SMTP Only)
       help: "The SMTP password shown beside that username. MailerSend connects on smtp.mailersend.net port 587 and upgrades to TLS with STARTTLS."
 
@@ -66,7 +66,7 @@ form:
       underline: true
 
     signing_secret:
-      type: text
+      type: password
       label: Signing secret
       help: MailerSend signs every delivery webhook with this, and an add-on that receives those webhooks uses it to check each one is really from MailerSend. MailerSend shows it once, when the webhook is created, and there is no way to see it again afterwards. If an add-on offers a "Set up in MailerSend" button, press that instead and this fills itself in.
 
