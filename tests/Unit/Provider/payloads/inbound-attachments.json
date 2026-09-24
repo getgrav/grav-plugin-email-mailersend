@@ -1,0 +1,77 @@
+{
+  "type": "inbound.message",
+  "inbound_id": "your-inbound-id",
+  "url": "https://your-webhook-url",
+  "created_at": "2024-10-24T05:10:57.121199Z",
+  "data": {
+    "object": "message",
+    "id": "66f1a2b3c4d5e6f708192a3c",
+    "recipients": {
+      "to": {
+        "raw": "s1krr0oeqilgmcbnohxg@inbound.mailersend.net",
+        "data": [
+          {
+            "name": "",
+            "email": "s1krr0oeqilgmcbnohxg@inbound.mailersend.net"
+          }
+        ]
+      },
+      "rcptTo": [
+        {
+          "email": "s1krr0oeqilgmcbnohxg@inbound.mailersend.net"
+        }
+      ]
+    },
+    "from": {
+      "raw": "Test User <sender@example.com>",
+      "name": "Test User",
+      "email": "sender@example.com"
+    },
+    "sender": {
+      "email": "sender@example.com"
+    },
+    "subject": "Invoice",
+    "date": "Thu, 24 Oct 2024 05:10:42 +0000",
+    "headers": {
+      "From": "Test User <sender@example.com>",
+      "To": "s1krr0oeqilgmcbnohxg@inbound.mailersend.net",
+      "Subject": "Invoice",
+      "Message-ID": "<Invoice-1@example.com>",
+      "In-Reply-To": "<HD.1042.7@support.example.com>",
+      "Content-Type": "multipart/mixed; boundary=\"x\""
+    },
+    "text": "Hi,\r\nTesting inbound routing payload sample.\r\n",
+    "html": "<p>See attached <img src=\"cid:logo01\"></p>",
+    "raw": null,
+    "attachments": [
+      {
+        "file_name": "invoice.pdf",
+        "content_type": "application/pdf",
+        "content": "JVBERi0xLjcK",
+        "disposition": "attachment"
+      },
+      {
+        "filename": "logo.png",
+        "content_type": "image/png",
+        "content": "iVBORw==",
+        "content_id": "<logo01>"
+      },
+      {
+        "filename": "../../../etc/passwd",
+        "content_type": "text/plain",
+        "content": "cm9vdA==",
+        "disposition": "attachment"
+      },
+      {
+        "filename": "empty.txt",
+        "content_type": "text/plain"
+      }
+    ],
+    "spf_check": {
+      "code": "+",
+      "value": null
+    },
+    "dkim_check": false,
+    "created_at": "2024-10-24T05:10:56.000000Z"
+  }
+}

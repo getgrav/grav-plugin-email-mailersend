@@ -93,7 +93,13 @@ class EmailMailersendPlugin extends Plugin
             return;
         }
 
-        $providers->add(new \Grav\Plugin\EmailMailersend\Provider\MailerSendProvider(
+        // An Email plugin with inbound mail gets the provider that says so. The
+        // check comes first for the same reason as the one above.
+        $class = interface_exists(\Grav\Plugin\Email\Providers\Inbound\InboundCapable::class)
+            ? \Grav\Plugin\EmailMailersend\Provider\MailerSendInboundProvider::class
+            : \Grav\Plugin\EmailMailersend\Provider\MailerSendProvider::class;
+
+        $providers->add(new $class(
             (array)$this->config->get('plugins.email-mailersend'),
             null,
             static fn (array $values) => \Grav\Plugin\EmailMailersend\Settings::save($values),

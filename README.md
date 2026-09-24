@@ -31,11 +31,12 @@ username:
 password:
 api_key:
 signing_secret:
+inbound_signing_secret:
 domain:
 domain_id:
 ```
 
-The last three are only for delivery reports and can be left empty if you are not using them. See below.
+`signing_secret`, `domain` and `domain_id` are only for delivery reports, and `inbound_signing_secret` only for receiving mail. All four can be left empty if you are not using them. See below.
 
 Note that if you use the Admin Plugin, a file with your configuration named email-mailersend.yaml will be saved in the `user/config/plugins/`-folder once the configuration is saved in the Admin.
 
@@ -106,6 +107,18 @@ In MailerSend, open **Domains**, click **Manage** beside the domain this site se
 **MailerSend's webhooks carry no headers.** Whatever a plugin stamps on a message — a campaign id, a send id, the message's own `Message-ID` — none of it comes back. What comes back is MailerSend's own message id, which is the same one their SMTP relay answers with in `250 Message queued as …`. So events are matched to a recipient's address, and to that id where a store recorded it. Bounces and spam complaints do the right thing either way; per-message figures depend on which id the store kept.
 
 **Custom headers and `List-Unsubscribe` need a bigger MailerSend plan on the API transport.** The transport sends both, but MailerSend's Email API only accepts them on their Professional and Enterprise plans. If a bulk sender on your site needs the unsubscribe headers to reach the wire — and it does, because a bulk sender with no unsubscribe button is what a spammer looks like to Gmail — either move up a plan or set this plugin's **transport** to `smtp`, where the headers are the message on every plan.
+
+## Receiving mail
+
+MailerSend can also receive mail through an inbound route and post each message to your site, and this plugin knows how to read it for an add-on that wants it, such as a helpdesk turning replies into tickets. It needs an Email plugin with inbound mail (`Email::supportsFeature('inbound')`); with an older one this plugin sends and reports deliveries exactly as before.
+
+1. In MailerSend, open **Domains**, click **Manage** beside your domain, scroll to **Inbound routing** and press **Add an inbound route**.
+2. Either use the inbound address MailerSend gives you and forward your support mailbox to it, or turn on inbound domain forwarding for a subdomain such as `support.example.com` and add the MX record MailerSend shows to your DNS.
+3. Leave the filters on all, or narrow them to your support address. Under **Route to**, choose a webhook and paste the address the add-on gives you. MailerSend posts a test ping to it before it saves the route; that ping is signed with MailerSend's published test secret and is accepted, so the route saves before you have its real secret.
+4. Copy the route's webhook secret into **Inbound signing secret** here (`inbound_signing_secret`). Every route has its own secret, so it is not the delivery webhook's signing secret.
+5. Keep attachments included, or pictures pasted into replies are lost.
+
+MailerSend posts the whole message in one request, signed like its other webhooks with an HMAC-SHA256 of the body in the `Signature` header. The message is built from its `raw` field whenever that holds the message, and from the parsed fields otherwise. `recipients.rcptTo` is used as the envelope recipient, which keeps a `support+token@` address even when the visible To lost it, and `spf_check` and `dkim_check` travel with the message. MailerSend signs no timestamp and retries a failed post for about three days, so a replayed post is caught by the add-on's own duplicate check rather than here.
 
 ## Development
 

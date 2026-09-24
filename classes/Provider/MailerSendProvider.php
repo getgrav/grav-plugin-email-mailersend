@@ -39,8 +39,14 @@ use Grav\Plugin\EmailMailersend\Http\Http;
  * So a store on the API transport is told that `List-Unsubscribe` does not
  * survive, which is a sentence worth reading before forty thousand messages go
  * out without an unsubscribe button and Gmail starts filing the lot as spam.
+ *
+ * Not final, for one reason: {@see MailerSendInboundProvider} is this class
+ * plus the Email plugin's `InboundCapable` interface, and the plugin registers
+ * that one instead when the Email plugin is new enough to have the interface.
+ * This class names no inbound type in its declaration, so it still loads beside
+ * an Email plugin from before inbound mail.
  */
-final class MailerSendProvider implements Provider
+class MailerSendProvider implements Provider
 {
     /** The engine this plugin registers on `onEmailEngines`. */
     public const ENGINE = 'mailersend';
@@ -68,6 +74,8 @@ final class MailerSendProvider implements Provider
     public const INSTRUCTIONS_KEY = 'PLUGIN_EMAIL_MAILERSEND.PROVIDER_INSTRUCTIONS';
 
     private readonly MailerSendApi $api;
+
+    private ?MailerSendInbound $inbound = null;
 
     /**
      * @param array<string, mixed> $config this plugin's own config
@@ -170,6 +178,19 @@ final class MailerSendProvider implements Provider
     public static function instructionsInEnglish(): string
     {
         return 'In MailerSend, open Domains, click Manage beside the domain this site sends from, and go to the Webhooks tab. Add a webhook, paste the address above into the URL box, name it anything you like, and tick Delivered, Hard bounced, Soft bounced, Spam complaint, Opened and Clicked. Save it, then copy the signing secret MailerSend shows you into the Signing secret field in this plugin\'s settings — it is only shown once, and there is no way to see it again afterwards.';
+    }
+
+    /**
+     * The receiver for mail sent to a MailerSend inbound route.
+     *
+     * Answers the Email plugin's `InboundCapable::inbound()` on
+     * {@see MailerSendInboundProvider}. Cheap and without I/O. Only call it
+     * where the Email plugin has inbound mail: {@see MailerSendInbound}
+     * implements that plugin's `InboundReceiver`.
+     */
+    public function inbound(): MailerSendInbound
+    {
+        return $this->inbound ??= new MailerSendInbound();
     }
 
     /** Which of this plugin's two transports is in use. */

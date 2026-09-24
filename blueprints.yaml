@@ -1,7 +1,7 @@
 name: Email Mailersend
 slug: email-mailersend
 type: plugin
-version: 1.1.2
+version: 1.2.0
 testing: false
 description: Mailersend integration for new Email plugin
 icon: envelope
@@ -69,6 +69,17 @@ form:
       type: password
       label: Signing secret
       help: MailerSend signs every delivery webhook with this, and an add-on that receives those webhooks uses it to check each one is really from MailerSend. MailerSend shows it once, when the webhook is created, and there is no way to see it again afterwards. If an add-on offers a "Set up in MailerSend" button, press that instead and this fills itself in.
+
+    inbound:
+      type: section
+      title: Receiving mail
+      underline: true
+      text: MailerSend can receive mail through an inbound route and post each message to your site, for an add-on such as a helpdesk that turns replies into tickets. That add-on gives you a web address to use as the route's webhook, and this is where the route's secret is kept.
+
+    inbound_signing_secret:
+      type: password
+      label: Inbound signing secret
+      help: The secret of the webhook on your MailerSend inbound route. Open **Domains**, click **Manage** beside your domain, open the route under **Inbound routing** and copy the webhook's secret. MailerSend gives every route its own secret, so this is not the same as the delivery webhook's signing secret above. Without it every received message is refused.
 
     domain:
       type: text
