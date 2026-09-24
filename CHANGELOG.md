@@ -1,5 +1,5 @@
 # v1.2.0
-## 09/23/2026
+## 09/24/2026
 
 1. [](#new)
     * **Receiving mail.** With an Email plugin that has inbound mail, this plugin now reads what a MailerSend inbound route posts, for an add-on that wants received mail, such as a helpdesk. The post is checked with the same `Signature` HMAC as delivery webhooks, against a new **Inbound signing secret** setting, because every inbound route has a secret of its own. The route's test ping, signed with MailerSend's published test secret, is accepted so a route can be saved. The message is built from `raw` when it holds the message and from the parsed fields otherwise, with `recipients.rcptTo` as the envelope recipient and `spf_check` and `dkim_check` passed on.
