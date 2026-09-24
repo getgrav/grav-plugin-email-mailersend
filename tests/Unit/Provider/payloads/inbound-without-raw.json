@@ -1,0 +1,53 @@
+{
+  "type": "inbound.message",
+  "inbound_id": "your-inbound-id",
+  "url": "https://your-webhook-url",
+  "created_at": "2024-10-24T05:10:57.121199Z",
+  "data": {
+    "object": "message",
+    "id": "6719d6e014059a29f74b16bf",
+    "recipients": {
+      "to": {
+        "raw": "s1krr0oeqilgmcbnohxg@inbound.mailersend.net",
+        "data": [
+          {
+            "name": "",
+            "email": "s1krr0oeqilgmcbnohxg@inbound.mailersend.net"
+          }
+        ]
+      },
+      "rcptTo": [
+        {
+          "email": "s1krr0oeqilgmcbnohxg@inbound.mailersend.net"
+        }
+      ]
+    },
+    "from": {
+      "raw": "Test User <sender@example.com>",
+      "name": "Test User",
+      "email": "sender@example.com"
+    },
+    "sender": {
+      "email": "sender@example.com"
+    },
+    "subject": "Test Inbound Routing",
+    "date": "Thu, 24 Oct 2024 05:10:42 +0000",
+    "headers": {
+      "To": "s1krr0oeqilgmcbnohxg@inbound.mailersend.net",
+      "Date": "Thu, 24 Oct 2024 05:10:42 +0000",
+      "From": "Test User <sender@example.com>",
+      "Subject": "Test Inbound Routing",
+      "Message-ID": "<Message-ID>"
+    },
+    "text": "Hi,\r\nTesting inbound routing payload sample.\r\n",
+    "html": "<div dir=\"ltr\">Hi,<div>Testing inbound routing payload sample.</div>",
+    "raw": "Your raw message",
+    "attachments": [],
+    "spf_check": {
+      "code": "+",
+      "value": null
+    },
+    "dkim_check": false,
+    "created_at": "2024-10-24T05:10:56.000000Z"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "type": "inbound.message",
+  "inbound_id": "your-inbound-id",
+  "url": "https://your-webhook-url",
+  "created_at": "2024-10-24T05:10:57.121199Z",
+  "data": {
+    "object": "message",
+    "id": "66f1a2b3c4d5e6f708192a3b",
+    "recipients": {
+      "to": {
+        "raw": "Support <support@support.example.com>",
+        "data": [
+          {
+            "name": "Support",
+            "email": "support@support.example.com"
+          }
+        ]
+      },
+      "rcptTo": [
+        {
+          "email": "support+t8f2k@support.example.com"
+        }
+      ]
+    },
+    "from": {
+      "raw": "Casey Customer <casey@example.net>",
+      "name": "Casey Customer",
+      "email": "casey@example.net"
+    },
+    "sender": {
+      "email": "bounces+abc@example.net"
+    },
+    "subject": "Re: [#1042] Drucker brännt",
+    "date": "Tue, 23 Sep 2026 10:15:00 +0000",
+    "headers": {
+      "From": "Casey Customer <casey@example.net>",
+      "To": "Support <support@support.example.com>",
+      "Subject": "=?UTF-8?Q?Re:_[#1042]_Drucker_br=C3=A4nnt?=",
+      "Message-ID": "<CAB1234@mail.example.net>"
+    },
+    "text": "Still on fire.\r\n",
+    "html": null,
+    "raw": "Return-Path: <casey@example.net>\r\nAuthentication-Results: mx.example.net; dmarc=pass header.from=example.net\r\nFrom: Casey Customer <casey@example.net>\r\nTo: Support <support@support.example.com>\r\nSubject: =?UTF-8?Q?Re:_[#1042]_Drucker_br=C3=A4nnt?=\r\nDate: Tue, 23 Sep 2026 10:15:00 +0000\r\nMessage-ID: <CAB1234@mail.example.net>\r\nIn-Reply-To: <hd.1042.7@support.example.com>\r\nReferences: <hd.1042.1@support.example.com> <hd.1042.7@support.example.com>\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"b1\"\r\n\r\n--b1\r\nContent-Type: text/plain; charset=utf-8\r\n\r\nStill on fire.\r\n\r\n--b1\r\nContent-Type: image/png\r\nContent-Disposition: attachment; filename=\"fire.png\"\r\nContent-Transfer-Encoding: base64\r\n\r\niVBORw0KGgpmaXJl\r\n--b1--\r\n",
+    "attachments": [],
+    "spf_check": {
+      "code": "~",
+      "value": null
+    },
+    "dkim_check": true,
+    "created_at": "2026-09-23T10:15:02.000000Z"
+  }
+}

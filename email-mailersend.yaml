@@ -6,3 +6,4 @@ api_key:
 signing_secret:
 domain:
 domain_id:
+inbound_signing_secret:
