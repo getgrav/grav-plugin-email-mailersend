@@ -1,3 +1,9 @@
+# v1.2.1
+## 10/21/2026
+
+1. [](#bugfix)
+    * **"Set up in MailerSend" now saves the signing secret.** The button created the webhook but left the **Signing secret** setting empty, because it read the secret from a `signing_secret` field and MailerSend's API returns it as `secret`. Every delivery report was then refused with a 401, so bounces, opens and clicks never reached the add-on.
+
 # v1.2.0
 ## 09/24/2026
 

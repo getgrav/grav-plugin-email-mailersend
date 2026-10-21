@@ -29,7 +29,7 @@ final class MailerSendSetupTest extends TestCase
         $http = (new FakeHttp())
             ->queue(200, ['data' => [['id' => 'dm1', 'name' => 'example.com']]])
             ->queue(200, ['data' => []])
-            ->queue(201, ['data' => ['id' => 'wh7', 'signing_secret' => 'ms_whsec_9911']]);
+            ->queue(201, ['data' => ['id' => 'wh7', 'secret' => 'ms_whsec_9911']]);
 
         $saved = [];
         $result = $this->button($http, $saved)->create(self::URL, [], self::CONFIG);
@@ -56,7 +56,7 @@ final class MailerSendSetupTest extends TestCase
         $http = (new FakeHttp())
             ->queue(200, ['data' => [['id' => 'dm1', 'name' => 'example.com']]])
             ->queue(200, ['data' => []])
-            ->queue(201, ['data' => ['id' => 'wh7', 'signing_secret' => 's']]);
+            ->queue(201, ['data' => ['id' => 'wh7', 'secret' => 's']]);
 
         $saved = [];
         $this->button($http, $saved)->create(self::URL, [], self::CONFIG);
@@ -76,7 +76,7 @@ final class MailerSendSetupTest extends TestCase
         $http = (new FakeHttp())
             ->queue(200, ['data' => [['id' => 'dm1', 'name' => 'example.com']]])
             ->queue(200, ['data' => []])
-            ->queue(201, ['data' => ['id' => 'wh7', 'signing_secret' => 's']]);
+            ->queue(201, ['data' => ['id' => 'wh7', 'secret' => 's']]);
 
         $saved = [];
         // `dropped` is in the contract's vocabulary and MailerSend has nothing
@@ -94,7 +94,7 @@ final class MailerSendSetupTest extends TestCase
                 ['id' => 'wh1', 'url' => 'https://elsewhere.example.com/hook'],
                 ['id' => 'wh7', 'url' => self::URL],
             ]])
-            ->queue(200, ['data' => ['id' => 'wh7', 'signing_secret' => 'ms_whsec_9911']]);
+            ->queue(200, ['data' => ['id' => 'wh7', 'secret' => 'ms_whsec_9911']]);
 
         $saved = [];
         $result = $this->button($http, $saved)->create(self::URL, [], self::CONFIG);
@@ -123,7 +123,7 @@ final class MailerSendSetupTest extends TestCase
                 ['id' => 'wh1', 'url' => 'https://elsewhere.example.com/hook'],
                 ['id' => 'wh7', 'url' => 'https://shop.example.com/_nl/webhook/mailersend/the-old-secret'],
             ]])
-            ->queue(200, ['data' => ['id' => 'wh7', 'signing_secret' => 'ms_whsec_9911']]);
+            ->queue(200, ['data' => ['id' => 'wh7', 'secret' => 'ms_whsec_9911']]);
 
         $saved = [];
         $result = $this->button($http, $saved)->create(self::URL, [], self::CONFIG);
@@ -287,7 +287,7 @@ final class MailerSendSetupTest extends TestCase
                 ['id' => 'dm2', 'name' => 'Shop.Example.com'],
             ]])
             ->queue(200, ['data' => []])
-            ->queue(201, ['data' => ['id' => 'wh7', 'signing_secret' => 's']]);
+            ->queue(201, ['data' => ['id' => 'wh7', 'secret' => 's']]);
 
         $saved = [];
         $result = $this->button($http, $saved)->create(self::URL, [], self::CONFIG + ['domain' => 'SHOP.example.com']);
@@ -323,7 +323,7 @@ final class MailerSendSetupTest extends TestCase
     {
         $http = (new FakeHttp())
             ->queue(200, ['data' => []])
-            ->queue(201, ['data' => ['id' => 'wh7', 'signing_secret' => 's']]);
+            ->queue(201, ['data' => ['id' => 'wh7', 'secret' => 's']]);
 
         $saved = [];
         $result = $this->button($http, $saved)->create(self::URL, [], self::CONFIG + ['domain_id' => 'dm9']);
@@ -338,7 +338,7 @@ final class MailerSendSetupTest extends TestCase
         $http = (new FakeHttp())
             ->queue(200, ['data' => [['id' => 'dm1', 'name' => 'example.com']]])
             ->queue(200, ['data' => []])
-            ->queue(201, ['data' => ['id' => 'wh7', 'signing_secret' => 's']]);
+            ->queue(201, ['data' => ['id' => 'wh7', 'secret' => 's']]);
 
         $setup = new MailerSendSetup(new MailerSendApi($http), static function (array $values): void {
             unset($values);

@@ -173,7 +173,9 @@ final class MailerSendApi
         return [
             'ok' => true,
             'id' => self::textOrNull($data['id'] ?? null),
-            'secret' => self::textOrNull($data['signing_secret'] ?? null),
+            // MailerSend's webhook object names it `secret`; `signing_secret`
+            // is only what their dashboard calls it.
+            'secret' => self::textOrNull($data['secret'] ?? $data['signing_secret'] ?? null),
             'message' => '',
         ];
     }
