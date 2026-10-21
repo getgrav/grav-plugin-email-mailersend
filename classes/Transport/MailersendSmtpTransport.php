@@ -6,7 +6,11 @@ namespace Grav\Plugin\EmailMailersend\Transport;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\Envelope;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Component\Mime\RawMessage;
 
 /**
  * Sends through MailerSend's SMTP relay.
@@ -24,6 +28,18 @@ use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
  *
  * The username and password are the SMTP credentials MailerSend shows on the
  * sending domain's page, not the API token.
+ *
+ * ## A 421 is sent again, once
+ *
+ * MailerSend's relay now and then answers a command on a connection it has
+ * kept open with `421 Service not available, closing transmission channel`
+ * and hangs up. Nothing was accepted, so the message is safe to send again,
+ * and on a bulk send about one in six messages was hitting it. Symfony already
+ * knows what to do with the dead connection: after a failed send it pings
+ * before the next one, finds nobody there and opens a fresh connection. So
+ * the second attempt goes out on a new connection. A second 421 is thrown as
+ * it always was, because a relay that refuses a fresh connection too is down,
+ * not tidying up.
  */
 class MailersendSmtpTransport extends EsmtpTransport
 {
@@ -36,5 +52,23 @@ class MailersendSmtpTransport extends EsmtpTransport
 
         $this->setUsername($username);
         $this->setPassword($password);
+    }
+
+    /** "Service not available, closing transmission channel". */
+    public const CLOSING_CHANNEL = 421;
+
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage
+    {
+        try {
+            return parent::send($message, $envelope);
+        } catch (TransportExceptionInterface $e) {
+            if ($e->getCode() !== self::CLOSING_CHANNEL) {
+                throw $e;
+            }
+
+            $this->getLogger()->info('MailerSend closed the SMTP connection with a 421, sending once more on a new connection');
+
+            return parent::send($message, $envelope);
+        }
     }
 }
