@@ -1,3 +1,9 @@
+# v1.2.2
+## 10/21/2026
+
+1. [](#bugfix)
+    * **The SMTP transport sends a message again when MailerSend hangs up with a 421.** MailerSend's relay sometimes answers a command on a connection it has kept open with "421 Service not available, closing transmission channel" and closes it. Nothing was accepted, but the send failed, and on a 4,000-person newsletter about one message in six went that way and had to be retried by hand. The message now goes once more on a fresh connection. A second 421 is reported as before, and any other refusal (a 550 for a bad mailbox, say) is never retried
+
 # v1.2.1
 ## 10/21/2026
 
